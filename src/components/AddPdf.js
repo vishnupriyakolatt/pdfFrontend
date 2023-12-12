@@ -148,82 +148,9 @@ function AddPdf() {
           </Alert>
         )}
       </form>
-      <Typography
-        fontWeight={"bold"}
-        padding={3}
-        color={"black"}
-        variant="h5"
-        textAlign="center"
-      >
-        Uploaded Files
-      </Typography>
-      <Box
-        boxShadow="10px 10px 20px #ccc"
-        padding={3}
-        margin="auto"
-        marginTop={0}
-        display="flex"
-        flexDirection="column"
-        width="90%"
-      >
-        {allImage && (
-          <div
-            style={{ display: "flex", flexDirection: "row", overflowX: "auto" }}
-          >
-            {allImage.map((data) => (
-              <Card
-                key={data.pdf}
-                sx={{
-                  display: "flex",
-                  flexDirection: "row",
-                  margin: 2,
-                  minWidth: 300,
-                  maxWidth: 400,
-                }}
-              >
-                <CardMedia
-                  component="img"
-                  sx={{ width: 100, objectFit: "cover", borderRadius: "5px" }}
-                  image="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRFdraSTjERUoklUA5RizfSOyWhtsuBp2n_4Q4C9faOPg2f-c-qKNa7x7GGhzvkyF2z59E&usqp=CAU"
-                  alt={data.title}
-                />
-                <Box
-                  sx={{
-                    display: "flex",
-                    flexDirection: "column",
-                    flex: "1 0 auto",
-                    padding: 2,
-                  }}
-                >
-                  <Typography
-                    component="div"
-                    fontSize={20}
-                    fontWeight="bold"
-                    variant="h5"
-                    sx={{ marginBottom: 1 }}
-                  >
-                    {data.title}.pdf
-                  </Typography>
-                  <Button
-                    className="btn btn-dark"
-                    onClick={() => showPdf(data.pdf)}
-                    variant="contained"
-                    sx={{
-                      borderRadius: 0,
-                      backgroundColor: "#000",
-                      color: "#ffffff",
-                    }}
-                  >
-                    Show Pdf
-                  </Button>
-                </Box>
-              </Card>
-            ))}
-          </div>
-        )}
-      </Box>
-
-      <PdfComp pdfFile={pdfFile} />
+    
+ 
+      
     </div>
   );
 }

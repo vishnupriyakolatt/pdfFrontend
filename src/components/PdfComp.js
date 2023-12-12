@@ -56,10 +56,9 @@ function PdfComp(props) {
         });
   
         console.log("Response from server:", response);
-  
-        // Check if the response contains valid PDF data
+
         if (response && response.data instanceof ArrayBuffer) {
-          // setPdfFile(response.data);
+        
           const sourcePdfBytes = response.data;
           await extractAndCreateNewPdf(sourcePdfBytes, selectedPages);
         } else {
@@ -68,39 +67,10 @@ function PdfComp(props) {
         }
       } catch (error) {
         console.error('Error fetching PDF file:', error);
-        // Handle error, e.g., show an error message to the user
+   
       }
     
-  //   try {
-  //     // Check if pdfFile is an ArrayBuffer
-  //     if (pdfFile instanceof ArrayBuffer) {
-  //       console.log(pdfFile)
-  //       await extractAndCreateNewPdf(pdfFile, selectedPages);
-  //     } else {
-  //       const response = await fetch(pdfFile);
-  
-  //       // Log the response to inspect
-  //       console.log("Fetch Response:", response);
-  
-  //       if (!response.ok) {
-  //         throw new Error(`Failed to fetch PDF file. Status: ${response.status}`);
-  //       }
-  
-  //       const sourcePdfBytes = await response.arrayBuffer();
-  
-  //       // Log the sourcePdfBytes to inspect
-  //       console.log("PDF Bytes:", sourcePdfBytes);
-  
-  //       if (!(sourcePdfBytes instanceof ArrayBuffer) || sourcePdfBytes.byteLength === 0) {
-  //         throw new Error('Invalid PDF data received from the server');
-  //       }
-  
-  //       await extractAndCreateNewPdf(sourcePdfBytes, selectedPages);
-  //     }
-  //   } catch (error) {
-  //     console.error("Error creating new PDF", error);
-  //   }
-  // };
+
     }
   
   useEffect(() => {
@@ -112,7 +82,7 @@ function PdfComp(props) {
   
         console.log("Response from server:", response);
   
-        // Check if the response contains valid PDF data
+    
         if (response && response.data instanceof ArrayBuffer) {
           setPdfFile(response.data);
         } else {
@@ -120,7 +90,7 @@ function PdfComp(props) {
         }
       } catch (error) {
         console.error('Error fetching PDF file:', error);
-        // Handle error, e.g., show an error message to the user
+    
       }
     };
   

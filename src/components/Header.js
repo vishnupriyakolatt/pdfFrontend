@@ -44,7 +44,7 @@ function Header() {
             </Box>
           )}
           <Box display="flex" marginLeft="auto">
-            {isLoggedIn ? (
+            {localStorage.getItem('userId') ? (
               <>
                 <Button
                   onClick={() => dispatch(authActions.logout())}

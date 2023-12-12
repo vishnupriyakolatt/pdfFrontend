@@ -47,7 +47,10 @@ export default function Cards({
         Title: {userName}
       </Typography>
       <CardActions>
-        <Button size="small" onClick={onSubmit}>SHOW PDF</Button>
+        {localStorage.getItem('userId')&&(
+          <Button size="small" onClick={onSubmit}>SHOW PDF</Button>
+        )}
+        
       </CardActions>
     </Card>
   );
