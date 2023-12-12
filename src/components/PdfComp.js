@@ -99,15 +99,33 @@ function PdfComp(props) {
    
   return (
     <div
-      className="pdf-div"
+    className="pdf-div"
+    style={{
+      backgroundColor: "#ffffff",
+      padding: "20px",
+      borderRadius: "10px",
+      marginTop: 10,
+      boxShadow: "0px 0px 10px rgba(0, 0, 0, 0.1)",
+      display: "flex",
+      flexDirection: "column",
+      alignItems: "center",  // Center the entire div
+    }}
+  >
+    <button
+      onClick={handleCreateNewPdf}
       style={{
-        backgroundColor: "#ffffff",
-        padding: "20px",
-        borderRadius: "10px",
-        marginTop: 10,
-        boxShadow: "0px 0px 10px rgba(0, 0, 0, 0.1)",
+        backgroundColor: "#000",
+        color: "#ffffff",
+        padding: "10px",
+        border: "none",
+        borderRadius: "5px",
+        cursor: "pointer",
+        alignSelf: "center",  // Align button to the left
+        marginBottom: "10px",  // Add margin to the bottom of the button
       }}
     >
+      Create New PDF
+    </button>
       <Document file={pdfFile} onLoadSuccess={handleDocumentLoadSuccess}>
         {Array.from({ length: numPages }, (_, index) => index + 1).map(
           (page) => (
@@ -139,19 +157,7 @@ function PdfComp(props) {
             </div>
           )
         )}
-        <button
-          onClick={handleCreateNewPdf}
-          style={{
-            backgroundColor: "#000",
-            color: "#ffffff",
-            padding: "10px",
-            border: "none",
-            borderRadius: "5px",
-            cursor: "pointer",
-          }}
-        >
-          Create New PDF
-        </button>
+       
       </Document>
     </div>
   );
