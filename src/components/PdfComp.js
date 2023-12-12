@@ -2,8 +2,12 @@ import { useState, useEffect } from "react";
 import { Document, Page } from "react-pdf";
 import { PDFDocument } from "pdf-lib";
 import { saveAs } from "file-saver";
+import { useParams } from "react-router-dom";
+import axios from "axios";
 
 function PdfComp(props) {
+  const id=useParams()
+  const [pdfFile, setPdfFile] = useState(null);
   const [numPages, setNumPages] = useState();
   const [selectedPages, setSelectedPages] = useState([]);
 
@@ -44,19 +48,85 @@ function PdfComp(props) {
   const handleDocumentLoadSuccess = ({ numPages }) => {
     setNumPages(numPages);
   };
-
   const handleCreateNewPdf = async () => {
     console.log("Selected Pages:", selectedPages);
-    try {
-      const sourcePdfBytes = await fetch(props.pdfFile).then((res) =>
-        res.arrayBuffer()
-      );
-      await extractAndCreateNewPdf(sourcePdfBytes, selectedPages);
-    } catch (error) {
-      console.error("Error creating new PDF", error);
+      try {
+        const response = await axios.get(`http://localhost:8000/files/${id.id}`, {
+          responseType: 'arraybuffer', 
+        });
+  
+        console.log("Response from server:", response);
+  
+        // Check if the response contains valid PDF data
+        if (response && response.data instanceof ArrayBuffer) {
+          // setPdfFile(response.data);
+          const sourcePdfBytes = response.data;
+          await extractAndCreateNewPdf(sourcePdfBytes, selectedPages);
+        } else {
+   
+          console.error("Invalid PDF data received from the server");
+        }
+      } catch (error) {
+        console.error('Error fetching PDF file:', error);
+        // Handle error, e.g., show an error message to the user
+      }
+    
+  //   try {
+  //     // Check if pdfFile is an ArrayBuffer
+  //     if (pdfFile instanceof ArrayBuffer) {
+  //       console.log(pdfFile)
+  //       await extractAndCreateNewPdf(pdfFile, selectedPages);
+  //     } else {
+  //       const response = await fetch(pdfFile);
+  
+  //       // Log the response to inspect
+  //       console.log("Fetch Response:", response);
+  
+  //       if (!response.ok) {
+  //         throw new Error(`Failed to fetch PDF file. Status: ${response.status}`);
+  //       }
+  
+  //       const sourcePdfBytes = await response.arrayBuffer();
+  
+  //       // Log the sourcePdfBytes to inspect
+  //       console.log("PDF Bytes:", sourcePdfBytes);
+  
+  //       if (!(sourcePdfBytes instanceof ArrayBuffer) || sourcePdfBytes.byteLength === 0) {
+  //         throw new Error('Invalid PDF data received from the server');
+  //       }
+  
+  //       await extractAndCreateNewPdf(sourcePdfBytes, selectedPages);
+  //     }
+  //   } catch (error) {
+  //     console.error("Error creating new PDF", error);
+  //   }
+  // };
     }
-  };
-
+  
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(`http://localhost:8000/files/${id.id}`, {
+          responseType: 'arraybuffer', 
+        });
+  
+        console.log("Response from server:", response);
+  
+        // Check if the response contains valid PDF data
+        if (response && response.data instanceof ArrayBuffer) {
+          setPdfFile(response.data);
+        } else {
+          console.error("Invalid PDF data received from the server");
+        }
+      } catch (error) {
+        console.error('Error fetching PDF file:', error);
+        // Handle error, e.g., show an error message to the user
+      }
+    };
+  
+    fetchData();
+  }, [id.id]); 
+   
   return (
     <div
       className="pdf-div"
@@ -68,7 +138,7 @@ function PdfComp(props) {
         boxShadow: "0px 0px 10px rgba(0, 0, 0, 0.1)",
       }}
     >
-      <Document file={props.pdfFile} onLoadSuccess={handleDocumentLoadSuccess}>
+      <Document file={pdfFile} onLoadSuccess={handleDocumentLoadSuccess}>
         {Array.from({ length: numPages }, (_, index) => index + 1).map(
           (page) => (
             <div key={page} style={{ marginBottom: "20px" }}>
